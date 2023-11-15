@@ -33,7 +33,7 @@ jobs:
         uses: jdcargile/ms-teams-notification@v1.3
         with:
           github-token: ${{ github.token }}
-          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          ms-teams-webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
           notification-summary: 'CI CD pipeline failed' # Custom message.
           notification-color: 'ff0000' # Red color for failure notifications.
           timezone: 'Etc/UTC' # Specify your timezone.
