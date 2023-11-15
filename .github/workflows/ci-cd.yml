@@ -24,6 +24,9 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore
+        # Simulate Build Failure
+      - name: Simulate Build Failure
+        run: exit 1
         # Build Failure Notification
       - name: Notify Teams on Failure
         if: failure()
