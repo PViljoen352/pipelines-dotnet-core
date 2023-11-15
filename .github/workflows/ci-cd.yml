@@ -24,6 +24,16 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore
+        # Build Failure Notification
+      - name: Notify Teams on Failure
+        if: failure()
+        uses: jdcargile/ms-teams-notification@v1.3
+        env:
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+        with:
+          message: "Build and Test Failed - ${{ github.repository }} @ ${{ github.run_number }}"
+          title: "GitHub Actions Failure"
+          themeColor: "ff0000"
       - name: Test
         run: dotnet test --no-build --verbosity normal
       - name: Perform CodeQL Analysis
@@ -38,4 +48,14 @@ jobs:
         uses: actions/checkout@v3
       - name: Deploy
         run: echo "Deployment to staging environment successful."
+        # Deploy Failure Notication
+      - name: Notify Teams on Deployment Failure
+        if: failure()
+        uses: jdcargile/ms-teams-notification@v1.3
+        env:
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+        with:
+          message: "Deployment Failed - ${{ github.repository }} @ ${{ github.run_number }}"
+          title: "GitHub Actions Failure"
+          themeColor: "ff0000"
 
