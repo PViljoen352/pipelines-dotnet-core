@@ -25,18 +25,18 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
         # Simulate Build Failure
-      - name: Simulate Build Failure
-        run: exit 1
+     # - name: Simulate Build Failure
+    #    run: exit 1
         # Build Failure Notification
-      - name: Notify Teams on Failure
-        if: failure()
-        uses: jdcargile/ms-teams-notification@v1.3
-        with:
-          github-token: ${{ github.token }}
-          ms-teams-webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
-          notification-summary: 'CI CD pipeline build failed' # Custom message.
-          notification-color: 'ff0000' # Red color for failure notifications.
-          timezone: 'Etc/UTC' # Specify your timezone.
+     # - name: Notify Teams on Failure
+    #    if: failure()
+      #  uses: jdcargile/ms-teams-notification@v1.3
+     #   with:
+     #     github-token: ${{ github.token }}
+      #    ms-teams-webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
+     #     notification-summary: 'CI CD pipeline build failed' # Custom message.
+       #   notification-color: 'ff0000' # Red color for failure notifications.
+      #    timezone: 'Etc/UTC' # Specify your timezone.
       - name: Test
         run: dotnet test --no-build --verbosity normal
       - name: Perform CodeQL Analysis
@@ -51,14 +51,16 @@ jobs:
         uses: actions/checkout@v3
       - name: Deploy
         run: echo "Deployment to staging environment successful."
+        #Simulate Deploy Failure
+      - name: Simulate Deploy Failure
+        run: exit 1
         # Deploy Failure Notication
       - name: Notify Teams on Deployment Failure
         if: failure()
         uses: jdcargile/ms-teams-notification@v1.3
-        env:
-          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
         with:
-          message: "Deployment Failed - ${{ github.repository }} @ ${{ github.run_number }}"
-          title: "GitHub Actions Failure"
-          themeColor: "ff0000"
-
+          github-token: ${{ github.token }}
+          ms-teams-webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          notification-summary: 'CI CD pipeline deploy failed' # Custom message.
+          notification-color: 'ff0000' # Red color for failure notifications.
+          timezone: 'Etc/UTC' # Specify your timezone.
