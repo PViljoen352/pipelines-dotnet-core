@@ -12,8 +12,13 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
-steps:
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    projects: '**/*.csproj'
+jobs:
+- job: BuildJob
+  displayName: 'Build .NET Core Project'
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'build'
+      projects: '**/*.csproj'
