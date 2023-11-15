@@ -31,12 +31,12 @@ jobs:
       - name: Notify Teams on Failure
         if: failure()
         uses: jdcargile/ms-teams-notification@v1.3
-        env:
-          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
         with:
-          message: "Build and Test Failed - ${{ github.repository }} @ ${{ github.run_number }}"
-          title: "GitHub Actions Failure"
-          themeColor: "ff0000"
+          github-token: ${{ github.token }}
+          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          notification-summary: 'CI CD pipeline failed' # Custom message.
+          notification-color: 'ff0000' # Red color for failure notifications.
+          timezone: 'Etc/UTC' # Specify your timezone.
       - name: Test
         run: dotnet test --no-build --verbosity normal
       - name: Perform CodeQL Analysis
